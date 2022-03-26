@@ -18,6 +18,6 @@ fn main() -> Result<(), serde_yaml::Error> {
         "#};
 
     let people: Vec<Person> = serde_yaml::from_str(&test_yaml)?;
-    println!("{:?}", people[0].children.as_ref().unwrap()[0]);
+    println!("{}", people[0].children.as_ref().unwrap()[0]);
     Ok(())
 }
