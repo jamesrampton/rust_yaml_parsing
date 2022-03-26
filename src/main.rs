@@ -12,13 +12,12 @@ struct Person {
 
 fn main() -> Result<(), serde_yaml::Error> {
     let test_yaml: &str = indoc! {r#"---
-        - G1: "Test"
-          children: [Sn1]
-        - Sn1: "Lala"
+        - bobby: "Parent"
+          children: [Linda]
+        - Linda: "Child"
         "#};
 
-    let deser: Vec<Person> = serde_yaml::from_str(&test_yaml)?;
-    println!("{:#?}", deser);
-    // println!("{:?}", deser[0].supported_by.as_ref().unwrap()[0]);
+    let people: Vec<Person> = serde_yaml::from_str(&test_yaml)?;
+    println!("{:?}", people[0].children.as_ref().unwrap()[0]);
     Ok(())
 }
