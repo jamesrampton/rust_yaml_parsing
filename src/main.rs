@@ -32,6 +32,6 @@ fn main() -> Result<(), serde_yaml::Error> {
     "#};
 
     let data = serde_yaml::from_str::<Data>(test_yaml)?;
-    println!("{:#?}", data.people);
+    println!("{}", serde_yaml::to_string(&data)?);
     Ok(())
 }
