@@ -1,23 +1,37 @@
 use indoc::indoc;
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+struct Data {
+    people: Vec<Person>,
+}
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct Person {
-    children: Option<Vec<String>>,
-    #[serde(flatten)]
-    extras: HashMap<String, String>,
+    name: String,
+    age: u8,
+    children: Option<Vec<Person>>,
+    nicknames: Option<Vec<String>>,
 }
 
 fn main() -> Result<(), serde_yaml::Error> {
-    let test_yaml: &str = indoc! {r#"---
-        - bobby: "Parent"
-          children: [Linda]
-        - Linda: "Child"
-        "#};
+    let test_yaml: &str = indoc! {r#"
+      people:
+        - name: "Alice"
+          age: 52
+          children:
+            - name: "Theodore"
+              age: 12
+              nicknames:
+                - "Teddy"
+        - name: "Robert"
+          age: 26
+          nicknames:
+            - "Bob"
+    "#};
 
-    let people: Vec<Person> = serde_yaml::from_str(&test_yaml)?;
-    println!("{}", people[0].children.as_ref().unwrap()[0]);
+    let data = serde_yaml::from_str::<Data>(test_yaml)?;
+    println!("{:#?}", data.people);
     Ok(())
 }
